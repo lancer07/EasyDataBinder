@@ -1,0 +1,123 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+#forkme{
+	position: fixed;
+	right: 0;
+	top: 0;
+	width:149px;
+	height: 149px;
+	background: url(forkme.png);
+}
+.blue{
+	color:#79ccff;
+}
+.pink{
+	color: #eca5de;
+}
+body{
+	background: #1a1a1a;
+	color: #fff;
+	font-size: 14px;
+}
+h1{
+	text-align: center;
+	margin: 20px 0 0 0;
+}
+
+.wrap{
+	width: 670px;
+	margin: 40px auto;
+	border:2px solid #121212;
+	padding: 20px;
+	background: #2a2a2a;
+}
+.wrap>div{
+	clear: both;
+	margin: 20px 0;
+	vertical-align: top;
+}
+.wrap>div>div{
+	line-height: 30px;
+}
+.wrap p{
+	color: #ccc;
+	margin: 10px 0;
+}
+
+.wrap input[type='text']{
+	background: #505050;
+	height: 30px;
+	line-height: 30px;
+	border:0;
+	color:#fff;
+	width: 200px;
+}
+.wrap label{
+	margin-right: 10px;
+}
+.wrap label.tit{
+	float: left;
+	width: 90px;
+	height: 40px;
+	line-height: 30px;
+	display: block;
+	text-align: right;
+}
+.wrap textarea{
+	vertical-align: top;
+	background: #505050;
+	color:#fff;
+	border:0;
+	resize : none;
+}
+.wrap #info{
+	word-break:break-all;
+}
+.wrap button{
+	background: #505050;
+	height: 30px;
+	line-height: 30px;
+	border:0;
+	color:#fff;
+	padding: 0 20px;
+}
+.wrap button:hover{
+	background: #373737;
+}
+
+.documents{
+	width: 674px;
+	margin: 40px auto;
+	padding: 20px;
+	background: #2a2a2a;
+}
+
+.documents dl{
+	padding: 20px;
+	border-bottom: 1px dashed #ccc;
+	line-height: 2;
+}
+.documents dt{
+	font-size: 18px;
+}
+.documents dd{
+	padding-left: 20px;
+}
+
+pre{
+	white-space:pre-line;
+}
+
+
+footer{
+	text-align: center;
+	margin: 30px auto;
+}
+footer a{
+	color: white
+}
+
+
+
