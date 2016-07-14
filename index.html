@@ -11,19 +11,22 @@
 	<div class="wrap">
 		<h2>Example</h2>
 		<div>
-			<label class="tit">Name：</label><input type="text" data-binder="name" />
+			<label class="tit">Name: </label><input type="text" data-binder="name" />
 		</div>
 		<div>
-			<label class="tit">Old：</label><input type="text" data-binder="old" />
+			<label class="tit">Old: </label><input type="text" data-binder="old" />
 		</div>
 		<div>
-			<label class="tit">Height：</label><input type="text" data-binder="body.height" /> CM
+			<label class="tit">Height: </label><input type="text" data-binder="body.height" /> CM
 		</div>
 		<div>
-			<label class="tit">Weight：</label><input type="text" data-binder="body.weight" /> KG
+			<label class="tit">Weight: </label><input type="text" data-binder="body.weight" /> KG
 		</div>
 		<div>
-			<label class="tit">Sex：</label>
+			<label class="tit">Header:</label><input type="text" data-binder="body.header.width" /> CM
+		</div>
+		<div>
+			<label class="tit">Sex: </label>
 			<div>
 				<label><input type="radio" name="sex" value="male" data-binder="sex" /> Male</label>
 				<label><input type="radio" name="sex" value="female" data-binder="sex" /> Female</label>
@@ -31,7 +34,7 @@
 		</div>
 
 		<div>
-			<label class="tit">Apply：</label>
+			<label class="tit">Apply: </label>
 			<label data-class="blue:sex==male"><input type="checkbox" data-binder="football" /> Football</label>
 			<label data-class="blue:sex==male"><input type="checkbox" data-binder="basketball" /> Basketball</label>
 			<label data-class="blue:sex==male"><input type="checkbox" data-binder="swimming" /> Swimming</label>
@@ -50,7 +53,7 @@
 		
 		
 		<div>
-			<label class="tit">Introduction：</label>
+			<label class="tit">Introduction: </label>
 			<textarea cols="30" rows="10" data-binder="content"></textarea>
 		</div>
 		<div>

@@ -88,7 +88,10 @@ var DataBinder = function () {
 	function _setDeepValue(obj,arr,v) {
 		if(arr.length > 1){
 	   		for(var j = 0;j<arr.length;j++){
-	        	_setDeepValue(obj[arr[0]],arr.slice(1),v)
+	   			if(!obj[arr[0]]){
+	   				obj[arr[0]] = {};
+	   			}
+	   			_setDeepValue(obj[arr[0]],arr.slice(1),v);
 	   		}
 		}else{
 			obj[arr[0]] = v;
