@@ -18,6 +18,12 @@ var DataBinder = function () {
 	}
 	// 渲染表单
 	function _renderInputs(i,m,v){
+		if(typeof v == 'object'){
+			for(var j in v){
+				_renderInputs(i,m+'.'+j,v[j]);
+			}
+			return ;
+		}
 		if (inputs[i].getAttribute('data-binder') == m) {
 			if (inputs[i].type != 'radio') {
 				inputs[i].value = v;
@@ -53,7 +59,6 @@ var DataBinder = function () {
 		}
 		return result
 	}
-
 	// 切换显示样式
 	function _toggleClass(){
 		var eles = document.querySelectorAll('[data-class]');
@@ -79,7 +84,16 @@ var DataBinder = function () {
 			}
 		}
 	}
-
+	// 递归找key修改
+	function _setDeepValue(obj,arr,v) {
+		if(arr.length > 1){
+	   		for(var j = 0;j<arr.length;j++){
+	        	_setDeepValue(obj[arr[0]],arr.slice(1),v)
+	   		}
+		}else{
+			obj[arr[0]] = v;
+		}	
+    }
 	// 为input绑定事件
 	(function bindEvent(){
 		for (var i = 0; i < inputs.length; i++) {
@@ -104,7 +118,17 @@ var DataBinder = function () {
 			// 有v的话是单个更新，否则是通过键值对一起更新dom
 			if (v || v == '') {
 				// 更新data
-				tplData[m] = v;
+				if(m.match(new RegExp('.'))){
+					var ms = m.split('.');
+					var key = [];
+					for(var j=0;j<ms.length;j++){
+						key.push(ms[j])
+					}
+					_setDeepValue(tplData,key,v)
+				}else{
+					tplData[m] = v;
+				}
+
 				// 更新表单里的显示
 				for (var i = 0; i < inputs.length; i++) {
 					_renderInputs(i,m,v)
@@ -117,7 +141,7 @@ var DataBinder = function () {
 				// 更新表单里的显示
 				for (var i = 0; i < inputs.length; i++) {
 					for (var j in data) {
-						_renderInputs(i,j,data[j])
+						_renderInputs(i,j,data[j])	
 					}
 				}
 			}

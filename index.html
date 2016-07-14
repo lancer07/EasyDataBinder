@@ -17,6 +17,12 @@
 			<label class="tit">Old：</label><input type="text" data-binder="old" />
 		</div>
 		<div>
+			<label class="tit">Height：</label><input type="text" data-binder="body.height" /> CM
+		</div>
+		<div>
+			<label class="tit">Weight：</label><input type="text" data-binder="body.weight" /> KG
+		</div>
+		<div>
 			<label class="tit">Sex：</label>
 			<div>
 				<label><input type="radio" name="sex" value="male" data-binder="sex" /> Male</label>
@@ -72,11 +78,15 @@
 			<dt>2. Set Multiple Data </dt>
 			<dd>
 				<pre>
-					var initData = { 
-						name  : "Nicolas", 
-						old : "3", 
-						sex : "male", 
-						content: "Tell me something" 
+					var initData = {
+					&nbsp;&nbsp;name  : "Nicolas",
+					&nbsp;&nbsp;old : "3",
+					&nbsp;&nbsp;body:{
+					&nbsp;&nbsp;&nbsp;&nbsp;height : "50",
+					&nbsp;&nbsp;&nbsp;&nbsp;weight : "17"
+					&nbsp;&nbsp;},
+					&nbsp;&nbsp;sex : "male",
+					&nbsp;&nbsp;content: "Tell me something"
 					}
 				</pre>
 			</dd>
@@ -101,13 +111,18 @@
 					&lt;input type="text" data-binder="name" /&gt;
 				</pre>
 			</dd>
+			<dd>
+				<pre>
+					&lt;input type="text" data-binder="body.height" /&gt;
+				</pre>
+			</dd>
 		</dl>
 		<dl>
 			<dt>5. Toggle Visible</dt>
 			<dd>
 				<pre>
 					&lt;p data-visible="sex==male"&gt;
-						(Boy's recommendation: Football,Basketball,Swimming)
+					&nbsp;&nbsp;&nbsp;&nbsp;(Boy's recommendation: Football,Basketball,Swimming)
 					&lt;/p&gt;
 				</pre>
 			</dd>
@@ -151,6 +166,10 @@
 		var initData = {
 			name  : "Nicolas",
 			old : "3",
+			body:{
+				height : "50",
+				weight : "17"
+			},
 			sex : "male",
 			content: "Tell me something"
 		}
