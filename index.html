@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Easy Data Binder</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+	<h1>Easy Data Binder</h1>
+	<a href="#" id="forkme"></a>
+	<div class="wrap">
+		<h2>Example</h2>
+		<div>
+			<label class="tit">Name：</label><input type="text" data-binder="name" />
+		</div>
+		<div>
+			<label class="tit">Old：</label><input type="text" data-binder="old" />
+		</div>
+		<div>
+			<label class="tit">Sex：</label>
+			<div>
+				<label><input type="radio" name="sex" value="male" data-binder="sex" /> Male</label>
+				<label><input type="radio" name="sex" value="female" data-binder="sex" /> Female</label>
+			</div>
+		</div>
+
+		<div>
+			<label class="tit">Apply：</label>
+			<label data-class="blue:sex==male"><input type="checkbox" data-binder="football" /> Football</label>
+			<label data-class="blue:sex==male"><input type="checkbox" data-binder="basketball" /> Basketball</label>
+			<label data-class="blue:sex==male"><input type="checkbox" data-binder="swimming" /> Swimming</label>
+			<label data-class="pink:sex==female"><input type="checkbox" data-binder="dance" /> Dance</label>
+			<label data-class="pink:sex==female"><input type="checkbox" data-binder="piano" /> Piano</label>
+			<label data-class="pink:sex==female"><input type="checkbox" data-binder="painting" /> Painting</label>
+
+			<p data-visible="sex==male">
+				(Boy's recommendation: Football,Basketball,Swimming)
+			</p>
+			<p data-visible="sex==female">
+				(Girls's recommendation: Dance,Piano,Painting)
+			</p>
+
+		</div>
+		
+		
+		<div>
+			<label class="tit">Introduction：</label>
+			<textarea cols="30" rows="10" data-binder="content"></textarea>
+		</div>
+		<div>
+			<label class="tit"></label>
+			<button id="set">Change To Female</button>
+			<button id="submit">Submit</button>
+		</div>
+		<div>
+			<pre id="info"></pre>
+		</div>
+	</div>
+	
+	<div class="documents">
+		<h2>Document API</h2>
+		<dl>
+			<dt>1. Init</dt>
+			<dd>
+				<pre>
+					var dataBinder = DataBinder();
+				</pre>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>2. Set Multiple Data </dt>
+			<dd>
+				<pre>
+					var initData = { 
+						name  : "Nicolas", 
+						old : "3", 
+						sex : "male", 
+						content: "Tell me something" 
+					}
+				</pre>
+			</dd>
+			<dd>
+				<pre>
+					dataBinder.set(initData);
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>3. Set Single Data</dt>
+			<dd>
+				<pre>
+					dataBinder.set('sex','female');
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>4. Bind Data To Input</dt>
+			<dd>
+				<pre>
+					&lt;input type="text" data-binder="name" /&gt;
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>5. Toggle Visible</dt>
+			<dd>
+				<pre>
+					&lt;p data-visible="sex==male"&gt;
+						(Boy's recommendation: Football,Basketball,Swimming)
+					&lt;/p&gt;
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>6. Toggle ClassName</dt>
+			<dd>
+				<pre>
+					&lt;label data-class="blue:sex==male,pink:sex==female"&gt;&lt;/label&gt;
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>7. Get Data</dt>
+			<dd>
+				<pre>
+					dataBinder.get();
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>8. Toggle Debug</dt>
+			<dd>
+				<pre>
+					dataBinder.debug = true || false;
+				</pre>
+			</dd>
+		</dl>
+	</div>
+
+	<footer>
+		<p>
+			Maintained by <a href="http://www.linqing07.com/" target="_blank">Lancer Lin</a>
+		</p>
+	</footer>
+
+	<script type="text/javascript" src="databinder.js"></script>
+	<script type="text/javascript">
+		var dataBinder = DataBinder();
+		dataBinder.debug = true; // 开启调试，在控制台实时输出
+		var initData = {
+			name  : "Nicolas",
+			old : "3",
+			sex : "male",
+			content: "Tell me something"
+		}
+		dataBinder.set(initData);
+		document.getElementById('set').onclick = function(){
+			dataBinder.set('sex','female');
+		}
+		document.getElementById('submit').onclick = function(){
+			document.getElementById('info').innerText = JSON.stringify(dataBinder.get())
+		}
+	</script>
+</body>
+</html>
