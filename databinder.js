@@ -41,13 +41,45 @@ var DataBinder = function () {
 		var eles = document.querySelectorAll('[data-visible]');
 		for (var i = 0; i < eles.length; i++) {
 			var showCondition = eles[i].getAttribute('data-visible');
+			var equal = true;
+
 			var decollator = showCondition.indexOf('==');
+			if(decollator == -1){
+				decollator = showCondition.indexOf('!=');
+				equal = false;
+			}
 			var key = showCondition.slice(0, decollator);
 			var value = showCondition.slice(decollator + 2);
-			if (tplData[key] == value) {
-				eles[i].style.display = 'inherit';
-			} else {
-				eles[i].style.display = 'none';
+				
+			// 普通比较
+			if(equal){
+				if (tplData[key] == value) {
+					eles[i].style.display = 'inherit';
+				} else {
+					eles[i].style.display = 'none';
+				}
+			}else{
+				if (tplData[key] != value) {
+					eles[i].style.display = 'inherit';
+				} else {
+					eles[i].style.display = 'none';
+				}
+			}
+			// 数组长度比较
+			if(value == '[]'){
+				if(equal){
+					if(tplData[key].length == 0){
+						eles[i].style.display = 'inherit';
+					}else{
+						eles[i].style.display = 'none';
+					}
+				}else{
+					if(tplData[key].length == 0){
+						eles[i].style.display = 'none';
+					}else{
+						eles[i].style.display = 'inherit';
+					}
+				}
 			}
 		}
 	}
@@ -97,6 +129,47 @@ var DataBinder = function () {
 			obj[arr[0]] = v;
 		}	
     }
+
+    // 渲染列表
+    function _renderList(obj){
+    	for(var key in obj){
+    		if(typeof obj[key] === 'object' && !(obj[key] instanceof Array)){
+    			_renderList(obj[key])
+    		}else if(typeof obj[key] === 'object' && (obj[key] instanceof Array)){
+    			var innerContent = "";
+    			for(var i=0;i<inputs.length;i++){
+    				if(inputs[i].getAttribute("data-binder") == key){
+    					for(var j=0;j<obj[key].length;j++){
+    						if(typeof obj[key][j] === 'object'){
+    							var subContent = ""
+    							for(subKey in obj[key][j]){
+    								subContent += '<span class="key">'+subKey+': </span><span class="value">' + obj[key][j][subKey]+'</span>';
+    							}
+    							innerContent += '<li>'+ subContent +'<em class="remove_item" data-item="'+ key +'" data-index="'+ j +'">X</em></li>';
+    						}else{
+    							innerContent += '<li>'+ obj[key][j] +'<em class="remove_item" data-item="'+ key +'" data-index="'+ j +'" >X</em></li>';
+    						}
+    					}
+    					inputs[i].innerHTML = innerContent;
+    				}
+    			}
+    		}
+    	}
+    	_binderRemove();
+    }
+    // 绑定删除按钮的事件
+    function _binderRemove(){
+    	var removeBtns = document.querySelectorAll('.remove_item');
+    	for(var i=0;i<removeBtns.length;i++){
+    		removeBtns[i].addEventListener('click', function() {
+    			var key = this.getAttribute('data-item');
+    			var index = this.getAttribute('data-index');
+    			tplData[key].splice(index,1);
+				binder.set(key,tplData[key]);
+    		})
+    	}
+    }
+
 	// 为input绑定事件
 	(function bindEvent(){
 		for (var i = 0; i < inputs.length; i++) {
@@ -153,6 +226,12 @@ var DataBinder = function () {
 			}
 			_visibleTags();
 			_toggleClass();
+			_renderList(tplData);
+		},
+		// 数组操作
+		pushArray:function(m,v){
+			tplData[m].push(v);
+			this.set(m,tplData[m]);
 		},
 		// 默认关闭调试
 		debug : false

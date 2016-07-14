@@ -23,7 +23,7 @@
 			<label class="tit">Weight: </label><input type="text" data-binder="body.weight" /> KG
 		</div>
 		<div>
-			<label class="tit">Header:</label><input type="text" data-binder="body.header.width" /> CM
+			<label class="tit">Leg: </label><input type="text" data-binder="body.leg.width" /> CM
 		</div>
 		<div>
 			<label class="tit">Sex: </label>
@@ -32,7 +32,7 @@
 				<label><input type="radio" name="sex" value="female" data-binder="sex" /> Female</label>
 			</div>
 		</div>
-
+		
 		<div>
 			<label class="tit">Apply: </label>
 			<label data-class="blue:sex==male"><input type="checkbox" data-binder="football" /> Football</label>
@@ -41,17 +41,23 @@
 			<label data-class="pink:sex==female"><input type="checkbox" data-binder="dance" /> Dance</label>
 			<label data-class="pink:sex==female"><input type="checkbox" data-binder="piano" /> Piano</label>
 			<label data-class="pink:sex==female"><input type="checkbox" data-binder="painting" /> Painting</label>
-
 			<p data-visible="sex==male">
 				(Boy's recommendation: Football,Basketball,Swimming)
 			</p>
 			<p data-visible="sex==female">
 				(Girls's recommendation: Dance,Piano,Painting)
 			</p>
-
 		</div>
 		
-		
+		<div>
+			<label class="tit">Family: </label>
+			<div>
+				<input type="text" class="short" id="relationship" placeholder="Relationship" />
+				<input type="text" class="short" id="personName" placeholder="Name"  />
+				<button id="addPerson">Add</button>
+				<ul data-binder="family" data-visible="family!=[]"></ul>
+			</div>
+		</div>
 		<div>
 			<label class="tit">Introduction: </label>
 			<textarea cols="30" rows="10" data-binder="content"></textarea>
@@ -139,7 +145,18 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>7. Get Data</dt>
+			<dt>7. Deal Array</dt>
+			<dd>
+				<pre>
+					dataBinder.pushArray('family',{
+					&nbsp;&nbsp;&nbsp;&nbsp;relationship : 'father',
+					&nbsp;&nbsp;&nbsp;&nbsp;name : 'Lancer'
+					});
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>8. Get Data</dt>
 			<dd>
 				<pre>
 					dataBinder.get();
@@ -147,7 +164,7 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>8. Toggle Debug</dt>
+			<dt>9. Toggle Debug</dt>
 			<dd>
 				<pre>
 					dataBinder.debug = true || false;
@@ -174,6 +191,12 @@
 				weight : "17"
 			},
 			sex : "male",
+			family : [
+				{
+					relationship : 'father',
+					name : 'Lancer'
+				}
+			],
 			content: "Tell me something"
 		}
 		dataBinder.set(initData);
@@ -183,6 +206,16 @@
 		document.getElementById('submit').onclick = function(){
 			document.getElementById('info').innerText = JSON.stringify(dataBinder.get())
 		}
+		document.getElementById('addPerson').onclick = function(){
+			var relationship = document.getElementById('relationship').value;
+			var name = document.getElementById('personName').value;
+			dataBinder.pushArray('family',{
+				relationship : relationship,
+				name : name
+			});
+		}
+		
+
 	</script>
 </body>
 </html>
