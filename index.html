@@ -55,7 +55,7 @@
 				<input type="text" class="short" id="relationship" placeholder="Relationship" />
 				<input type="text" class="short" id="personName" placeholder="Name"  />
 				<button id="addPerson">Add</button>
-				<ul data-binder="family" data-visible="family!=[]"></ul>
+				<ul data-repeat="family.parent"></ul>
 			</div>
 		</div>
 		<div>
@@ -145,10 +145,10 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>7. Deal Array</dt>
+			<dt>7. Add Data to Array</dt>
 			<dd>
 				<pre>
-					dataBinder.pushArray('family',{
+					dataBinder.pushArray('family.parent',{
 					&nbsp;&nbsp;&nbsp;&nbsp;relationship : 'father',
 					&nbsp;&nbsp;&nbsp;&nbsp;name : 'Lancer'
 					});
@@ -156,7 +156,23 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>8. Get Data</dt>
+			<dt>8. Remove Data from Array</dt>
+			<dd>
+				<pre>
+					dataBinder.removeItem('family.parent',1);
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>9. Render List</dt>
+			<dd>
+				<pre>
+					&lt;ul data-repeat="family.parent"&gt;&lt;/ul&gt;
+				</pre>
+			</dd>
+		</dl>
+		<dl>
+			<dt>10. Get Data</dt>
 			<dd>
 				<pre>
 					dataBinder.get();
@@ -164,7 +180,7 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>9. Toggle Debug</dt>
+			<dt>11. Toggle Debug</dt>
 			<dd>
 				<pre>
 					dataBinder.debug = true || false;
@@ -179,6 +195,7 @@
 		</p>
 	</footer>
 
+	<script type="text/javascript" src="lodash.js"></script>
 	<script type="text/javascript" src="databinder.js"></script>
 	<script type="text/javascript">
 		var dataBinder = DataBinder();
@@ -191,12 +208,18 @@
 				weight : "17"
 			},
 			sex : "male",
-			family : [
-				{
-					relationship : 'father',
-					name : 'Lancer'
-				}
-			],
+			family : {
+				parent:[
+					{
+						relationship : 'father',
+						name : 'Lancer'
+					},
+					{
+						relationship : 'mother',
+						name : 'Lara'
+					}
+				]
+			},
 			content: "Tell me something"
 		}
 		dataBinder.set(initData);
@@ -209,13 +232,13 @@
 		document.getElementById('addPerson').onclick = function(){
 			var relationship = document.getElementById('relationship').value;
 			var name = document.getElementById('personName').value;
-			dataBinder.pushArray('family',{
+			dataBinder.pushArray('family.parent',{
 				relationship : relationship,
 				name : name
 			});
+			document.getElementById('relationship').value ='';
+			document.getElementById('personName').value = '';
 		}
-		
-
 	</script>
 </body>
 </html>

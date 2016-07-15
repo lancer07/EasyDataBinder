@@ -52,7 +52,7 @@ h1{
 	background: #505050;
 	border:1px solid #ccc;
 }
-.wrap>div>div ul li span.value{
+.wrap>div>div ul li .span_2{
 	margin-right: 20px;
 }
 .wrap>div>div ul li{
