@@ -2,6 +2,7 @@
 var DataBinder = function () {
 	var tplData = {}; // 用于存放数据
 	var inputs = document.querySelectorAll('[data-binder]'); // 获取所有需要数据双向绑定的节点
+	var repeator = document.querySelectorAll('[data-repeat]'); // 获取所有需要repeat数据的节点
 
 	// 根据元素的type决定触发的事件
     function _event (eventType) {
@@ -17,8 +18,14 @@ var DataBinder = function () {
 		}
 	}
 	// 渲染表单
-	function _renderInputs(i,m,v){
-		if (inputs[i].getAttribute('data-binder') == m) {
+	function _renderInputs(i,path,v){
+		if(typeof v == 'object'){
+			for(var j in v){
+				_renderInputs(i,path+'.'+j,v[j]);
+			}
+			return ;
+		}
+		if (inputs[i].getAttribute('data-binder') == path) {
 			if (inputs[i].type != 'radio') {
 				inputs[i].value = v;
 			}
@@ -35,13 +42,26 @@ var DataBinder = function () {
 		var eles = document.querySelectorAll('[data-visible]');
 		for (var i = 0; i < eles.length; i++) {
 			var showCondition = eles[i].getAttribute('data-visible');
+			var equal = true;
 			var decollator = showCondition.indexOf('==');
+			if(decollator == -1){
+				decollator = showCondition.indexOf('!=');
+				equal = false;
+			}
 			var key = showCondition.slice(0, decollator);
 			var value = showCondition.slice(decollator + 2);
-			if (tplData[key] == value) {
-				eles[i].style.display = 'inherit';
-			} else {
-				eles[i].style.display = 'none';
+			if(equal){
+				if (tplData[key] == value) {
+					eles[i].style.display = 'inherit';
+				} else {
+					eles[i].style.display = 'none';
+				}
+			}else{
+				if (tplData[key] != value) {
+					eles[i].style.display = 'inherit';
+				} else {
+					eles[i].style.display = 'none';
+				}
 			}
 		}
 	}
@@ -80,6 +100,43 @@ var DataBinder = function () {
 		}
 	}
 
+	// 渲染列表
+    function _renderList(){
+    	for(var i=0; i<repeator.length;i++){
+    		var path = repeator[i].getAttribute('data-repeat');
+    		var innerContent = '';
+    		var arrs = _.get(tplData,path);
+    		for(var j=0;j<arrs.length;j++){
+    			if(typeof arrs[j] == 'object'){
+    				var subContent = '';
+    				_.map(arrs[j],function(v,k){
+    					subContent += '<span class="span_1">'+ k +': </span><span class="span_2">'+ v +'</span>'
+    				});
+    				innerContent += '<li>'+ subContent +'<em class="remove_item" data-item="'+ path +'" data-index="'+ j +'" >X</em></li>';
+    			}else{
+    				innerContent += '<li>'+ value +'<em class="remove_item" data-item="'+ path +'" data-index="'+ j +'" >X</em></li>';
+    			}
+    		}
+    		if (innerContent == '') {
+    			repeator[i].style.display = 'none';
+    		}else{
+    			repeator[i].style.display = 'inherit';
+    			repeator[i].innerHTML = innerContent;
+    		}
+    	}
+    	_binderRemove();
+    }
+    // 绑定删除按钮的事件
+    function _binderRemove(){
+    	var removeBtns = document.querySelectorAll('.remove_item');
+    	for(var i=0;i<removeBtns.length;i++){
+    		removeBtns[i].addEventListener('click', function() {
+    			var path = this.getAttribute('data-item');
+    			var index = this.getAttribute('data-index');
+    			binder.removeItem(path,index);
+    		})
+    	}
+    }
 	// 为input绑定事件
 	(function bindEvent(){
 		for (var i = 0; i < inputs.length; i++) {
@@ -99,21 +156,49 @@ var DataBinder = function () {
 		get : function(){
 			return tplData;
 		},
-		set: function(m, v) {
-			var data = m;
+		set: function(path, v) {
+			var data = path;
 			// 有v的话是单个更新，否则是通过键值对一起更新dom
 			if (v || v == '') {
-				_.set(tplData, m, v);
+				_.set(tplData, path, v);
+				// 更新表单里的显示
+				for (var i = 0; i < inputs.length; i++) {
+					_renderInputs(i,path,v)
+				}
 			} else {
-				console.log(m)
+				for(var i in path){
+					_.set(tplData, i, path[i]);
+				}
+				for (var i = 0; i < inputs.length; i++) {
+					for (var j in data) {
+						_renderInputs(i,j,data[j])	
+					}
+				}
 			}
-
-			//_renderInputs(i,m,v)
 			if(this.debug){
 				console.log(tplData);
 			}
 			_visibleTags();
 			_toggleClass();
+			_renderList();
+		},
+		pushArray:function(path,v){
+			var arrs = _.get(tplData,path);
+			arrs.push(v);
+			_.set(tplData, path, arrs);
+			_renderList();
+			if(this.debug){
+				console.log(tplData);
+			}
+		},
+		removeItem:function(path,i){
+			var arrs = _.get(tplData,path);
+			arrs.splice(i,1);
+			_.set(tplData, path, arrs);
+			_renderList();
+			if(this.debug){
+				console.log(tplData);
+			}
 		},
 		// 默认关闭调试
 		debug : false

@@ -2,6 +2,9 @@
 	margin: 0;
 	padding: 0;
 }
+ul,li,ol{
+	list-style-type: none;
+}
 #forkme{
 	position: fixed;
 	right: 0;
@@ -35,11 +38,44 @@ h1{
 }
 .wrap>div{
 	clear: both;
-	margin: 20px 0;
+	margin: 30px 0;
 	vertical-align: top;
 }
 .wrap>div>div{
 	line-height: 30px;
+	float: left;
+}
+.wrap>div>div ul{
+	line-height: 30px;
+	margin:10px 0;
+	padding: 0 10px;
+	background: #505050;
+	border:1px solid #ccc;
+}
+.wrap>div>div ul li .span_2{
+	margin-right: 20px;
+}
+.wrap>div>div ul li{
+	height: 30px;
+	line-height: 30px;
+}
+.wrap>div>div ul li em.remove_item{
+	font-style: normal;
+	float: right;
+	cursor: pointer;
+	background: #fc6b6b;
+	border-radius: 50%;
+	display: none;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+	margin-top: 7px;
+	font-size: 12px;
+	font-family: Arial;
+}
+.wrap>div>div ul li:hover em.remove_item{
+	display: inline-block;
 }
 .wrap p{
 	color: #ccc;
@@ -54,6 +90,10 @@ h1{
 	color:#fff;
 	width: 200px;
 }
+.wrap input[type='text'].short{
+	width: 120px;
+}
+
 .wrap label{
 	margin-right: 10px;
 }
