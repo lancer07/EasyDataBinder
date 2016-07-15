@@ -103,24 +103,12 @@ var DataBinder = function () {
 			var data = m;
 			// 有v的话是单个更新，否则是通过键值对一起更新dom
 			if (v || v == '') {
-				// 更新data
-				tplData[m] = v;
-				// 更新表单里的显示
-				for (var i = 0; i < inputs.length; i++) {
-					_renderInputs(i,m,v)
-				}
+				_.set(tplData, m, v);
 			} else {
-				for (var i in data) {
-					// 更新data
-					tplData[i] = data[i];
-				}
-				// 更新表单里的显示
-				for (var i = 0; i < inputs.length; i++) {
-					for (var j in data) {
-						_renderInputs(i,j,data[j])
-					}
-				}
+				console.log(m)
 			}
+
+			//_renderInputs(i,m,v)
 			if(this.debug){
 				console.log(tplData);
 			}
