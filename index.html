@@ -32,7 +32,6 @@
 				<label><input type="radio" name="sex" value="female" data-binder="sex" /> Female</label>
 			</div>
 		</div>
-		
 		<div>
 			<label class="tit">Apply: </label>
 			<label data-class="blue:sex==male"><input type="checkbox" data-binder="football" /> Football</label>
@@ -54,6 +53,7 @@
 			<div>
 				<input type="text" class="short" id="relationship" placeholder="Relationship" />
 				<input type="text" class="short" id="personName" placeholder="Name"  />
+				<input type="text" class="short" id="old" placeholder="Old"  />
 				<button id="addPerson">Add</button>
 				<ul data-repeat="family.parent"></ul>
 			</div>
@@ -196,7 +196,7 @@
 	</footer>
 
 	<script type="text/javascript" src="lodash.js"></script>
-	<script type="text/javascript" src="databinder.js"></script>
+	<script type="text/javascript" src="databinder.min.js"></script>
 	<script type="text/javascript">
 		var dataBinder = DataBinder();
 		dataBinder.debug = true;
@@ -212,11 +212,13 @@
 				parent:[
 					{
 						relationship : 'father',
-						name : 'Lancer'
+						name : 'Lancer',
+						old : 29
 					},
 					{
 						relationship : 'mother',
-						name : 'Lara'
+						name : 'Lara',
+						old : 26
 					}
 				]
 			},
@@ -232,12 +234,15 @@
 		document.getElementById('addPerson').onclick = function(){
 			var relationship = document.getElementById('relationship').value;
 			var name = document.getElementById('personName').value;
+			var old = document.getElementById('old').value;
 			dataBinder.pushArray('family.parent',{
 				relationship : relationship,
-				name : name
+				name : name,
+				old : old
 			});
 			document.getElementById('relationship').value ='';
 			document.getElementById('personName').value = '';
+			document.getElementById('old').value = '';
 		}
 	</script>
 </body>
